@@ -5,6 +5,8 @@ import { allLanguages } from "@/constants/i18n"
 
 const props = defineProps<TreeItemProps>()
 
+const isOpen = ref(false)
+
 const getLocaleValue = computed(() => {
   const locale = props.data.locale[props.locale]
   if (Object.keys(locale).length > 0) return locale
@@ -27,16 +29,26 @@ const getParentBreadcrumb = computed(() => {
 </script>
 
 <template>
-  <li class="ui-tree">
-    <div class="ui-tree-item">
-      <router-link :to="getLink" class="ui-lable">
-        {{ getLocaleValue.cg_name }}
-      </router-link>
-      <span class="ui-breadcrumb"> {{ getParentBreadcrumb }} </span>
+  <li class="ui-tree-item">
+    <div
+      class="flex w-full hover:bg-slate-300 hover:rounded-md"
+      @click="isOpen = !isOpen"
+    >
+      <span class="ui-tree-item__expand">{{ isOpen ? "-" : "+" }}</span>
+      <span class="ui-tree-item__container">
+        <router-link :to="getLink" class="ui-tree-item__lable">
+          {{ getLocaleValue.cg_name }}
+        </router-link>
+        <span class="ui-tree-item__breadcrumb">
+          {{ getParentBreadcrumb }}
+        </span>
+      </span>
     </div>
 
     <template v-if="data.childs?.length">
       <ui-tree
+        class="ui-tree-item__childs"
+        :class="{ 'ui-tree-item--open': isOpen }"
         :data="data.childs"
         :locale="locale"
         :parent-breadcrumb="getParentBreadcrumb"
@@ -47,12 +59,31 @@ const getParentBreadcrumb = computed(() => {
 
 <style lang="scss" scoped>
 .ui-tree-item {
-  display: flex;
-  flex-direction: column;
+  @apply relative cursor-pointer;
 
-  .ui-breadcrumb {
+  &__container {
+    @apply flex flex-col items-start;
+  }
+
+  &__expand {
+    @apply flex items-center py-2 px-4;
+  }
+
+  &__lable {
+    @apply hover:underline inline-block w-auto;
+  }
+
+  &__breadcrumb {
     font-size: 0.8rem;
     color: gray;
+  }
+
+  &__childs {
+    @apply h-0 overflow-hidden transition-all duration-300 ease-in-out;
+  }
+
+  &--open {
+    @apply h-auto overflow-auto;
   }
 }
 </style>

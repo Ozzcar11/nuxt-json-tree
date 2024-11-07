@@ -22,4 +22,8 @@ const selectHandler = computed({
   </header>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.header {
+  @apply flex items-center justify-center p-4;
+}
+</style>

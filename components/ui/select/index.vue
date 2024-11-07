@@ -18,4 +18,8 @@ const model = defineModel<string>()
   </select>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ui-select {
+  @apply border rounded py-1 px-2 outline-slate-300;
+}
+</style>

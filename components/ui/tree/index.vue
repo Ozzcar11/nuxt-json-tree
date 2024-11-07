@@ -6,7 +6,7 @@ defineProps<TreeProps>()
 </script>
 
 <template>
-  <ul>
+  <ul class="ui-tree">
     <ui-tree-item
       v-for="item in data"
       :data="item"
@@ -16,4 +16,8 @@ defineProps<TreeProps>()
   </ul>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ui-tree {
+  @apply ml-4;
+}
+</style>

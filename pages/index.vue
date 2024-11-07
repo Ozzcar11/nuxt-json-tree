@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { UiTree } from "@/components/ui"
+import { UiTree, UiSpinner } from "@/components/ui"
 import { type DataReturnType } from "@/api/data/types"
 import { useLocale } from "@/store/locale"
 
@@ -21,18 +21,20 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div class="main">
     <app-header />
     <template v-if="data">
       <ui-tree :data="data" :locale="locale.getLocale" />
     </template>
 
-    <div v-else="data">...Тут должен быть спиннер</div>
+    <div v-else="data" class="flex justify-center">
+      <ui-spinner />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.child {
-  margin-left: 20px;
+.main {
+  @apply min-h-screen bg-slate-200;
 }
 </style>
