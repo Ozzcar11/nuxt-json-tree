@@ -1,14 +1,19 @@
 <script lang="ts" setup>
-import { allLanguages } from "@/constants/i18n"
+import { UiTree } from "@/components/ui"
+import { type DataReturnType } from "@/api/data/types"
+import { useLocale } from "@/store/locale"
 
-const data = ref(null)
+import AppHeader from "@/components/app/app-header.vue"
 
-const i18n = ref(null)
+import { DataApi } from "@/api/data"
+
+const locale = useLocale()
+
+const data = ref<DataReturnType[]>()
 
 onMounted(async () => {
   try {
-    const response = await $fetch("/api/getDataFromTxt")
-    data.value = response
+    data.value = await DataApi.getData()
   } catch (error) {
     console.log(error)
   }
@@ -17,8 +22,17 @@ onMounted(async () => {
 
 <template>
   <div>
-    <ui-select v-model="i18n" :options="allLanguages" />
+    <app-header />
+    <template v-if="data">
+      <ui-tree :data="data" :locale="locale.getLocale" />
+    </template>
+
+    <div v-else="data">...Тут должен быть спиннер</div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.child {
+  margin-left: 20px;
+}
+</style>
