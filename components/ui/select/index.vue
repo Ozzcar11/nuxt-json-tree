@@ -2,12 +2,17 @@
 import { type SelectProps } from "./types"
 defineProps<SelectProps>()
 
-const model = defineModel()
+const model = defineModel<string>()
 </script>
 
 <template>
-  <select v-model="model">
-    <option v-for="(option, index) in options" :value="index">
+  <select v-model="model" class="ui-select">
+    <option
+      v-for="(option, index) in options"
+      :key="index"
+      :value="option.key"
+      class="ui-select__option"
+    >
       {{ option.value }}
     </option>
   </select>

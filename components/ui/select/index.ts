@@ -1,0 +1,1 @@
+export { default as UiSelect } from './index.vue'
